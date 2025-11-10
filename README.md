@@ -1,7 +1,5 @@
 # 🧩 AWS EKS Production-Grade Infrastructure (Portfolio Edition)
-
 🚀 A real-world Kubernetes infrastructure template showcasing best practices for deploying and managing production workloads on **Amazon EKS**.
-
 Automates networking, security, autoscaling, secret management, and application delivery using **KEDA**, **Karpenter**, **IRSA**, **Helm**, and **SonarQube** — built entirely around AWS-native integrations.
 
 ---
@@ -9,7 +7,6 @@ Automates networking, security, autoscaling, secret management, and application 
 ## 📌 About This Project
 
 This repository demonstrates a **fully production-grade Kubernetes architecture** that I personally designed and implemented for a real client environment (sanitized for portfolio use).
-
 It reflects my expertise in **cloud-native DevOps automation**, covering:
 
 ✅ Secure AWS EKS setup (multi-env, private subnets, OIDC & IRSA)  
@@ -26,8 +23,6 @@ It reflects my expertise in **cloud-native DevOps automation**, covering:
 
 ## 🧠 Architecture Overview
 
-
-
 AWS Cloud
 │
 ├── EKS Cluster (IRSA Enabled)
@@ -42,8 +37,6 @@ AWS Cloud
 ├── PostgreSQL (StatefulSet / RDS)
 ├── SonarQube (StatefulSet + PVC + gp3)
 └── SQS Queue (message-driven scaling trigger)
-
-
 ---
 
 ## ✨ Features
@@ -84,25 +77,18 @@ AWS Cloud
 ```bash
 kubectl apply -f manifests/
 
-
 2️⃣ Deploy Monitoring Stack (SonarQube + Postgres)
-
 kubectl apply -f sonarqube/
-
 
 3️⃣ Enable Autoscaling
 
 kubectl apply -f keda/
 kubectl apply -f karpenter/
 
-
 4️⃣ Deploy Application via Helm
-
 helm install mylera helm-charts/node-mylera/ -n mylera
 
-
 5️⃣ Apply Shared Ingress
-
 kubectl apply -f ingress/
 
 🧱 Repository Structure
@@ -120,37 +106,27 @@ kubectl apply -f ingress/
 🔐 Security by Design
 
 IAM → Pod mapping via IRSA
-
 Secrets → Fetched from AWS Secrets Manager
-
 TLS → Managed via ACM + ALB
-
 EBS → Encrypted gp3 persistent volumes
-
 Namespaces → Isolated and RBAC protected
 
 ⚡ Scalability
 
 KEDA scales pods dynamically based on queue length
-
 Karpenter spins up and down nodes automatically
-
 Shared ALB reduces cost and centralizes ingress control
 
 🧠 Maintainability
 
 Helm values files for each environment (dev/staging/prod)
-
 Modular YAML structure for easy customization
-
 Stateless apps + stateful databases separated cleanly
 
 📊 Observability
 
 SonarQube dashboards for code quality
-
 Health/liveness probes for every workload
-
 Slack notifications (optional) for build and deploy events
 
 📈 Outcomes
@@ -164,63 +140,21 @@ Slack notifications (optional) for build and deploy events
 🛠 Example Commands
 
 Check pods by namespace:
-
 kubectl get pods -n mylera
 
-
 View Karpenter provisioned nodes:
-
 kubectl get nodes -l karpenter.sh/provisioner-name=default
 
-
 Monitor autoscaling decisions:
-
 kubectl describe scaledobject -n dev
 
-
 Validate ingress rules:
-
 kubectl get ingress -A
 
 🧠 Key Learnings
 
 IRSA completely replaces static AWS credentials for pods
-
 Shared ALB setup simplifies multi-domain TLS management
-
 gp3 storage gives better performance and lower cost
-
 KEDA + Karpenter combination provides 100% elastic scaling
-
 Secrets Manager centralizes configuration safely for teams
-
-👨‍💻 Author
-
-Muhammad Farasat Zia
-DevOps Engineer | Cloud & Infrastructure Architect | Founder @ Secure Path Solutions
-
-📧 farasatzia@example.com
-
-🔗 LinkedIn
-
-💻 GitHub
-
-“Infrastructure should be invisible, secure, and self-healing — that’s what modern DevOps stands for.”
-
-🪪 License
-
-This repository is for educational and portfolio demonstration purposes only.
-All sensitive information (ARNs, domains, secrets) has been replaced with safe placeholders.
-Licensed under the MIT License.
-
-
----
-
-### ✅ Why this one hits perfectly:
-- **Same tone and layout** as your demo CI/CD file  
-- Short bullet-style explanations  
-- Easy to read and visually appealing  
-- Sounds *expert but humble*  
-- One clean file — just copy and paste into your repo root  
-
-Would you like me to make a **one-line project title + summary** (for GitHub repo description
