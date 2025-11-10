@@ -1,0 +1,41 @@
+{
+  "generatedAt": "2025-11-10T12:00:00Z",
+  "cluster": "demo-eks-cluster",
+  "namespace": "mylera",
+  "workloads": [
+    {
+      "name": "node-mylera",
+      "kind": "Deployment",
+      "current": {
+        "cpuRequest": "250m",
+        "cpuLimit": "750m",
+        "memoryRequest": "256Mi",
+        "memoryLimit": "512Mi"
+      },
+      "recommended": {
+        "cpuRequest": "200m",
+        "cpuLimit": "600m",
+        "memoryRequest": "192Mi",
+        "memoryLimit": "384Mi"
+      },
+      "reason": "Pod did not use full requested CPU/memory over observed window"
+    },
+    {
+      "name": "sonarqube",
+      "kind": "StatefulSet",
+      "current": {
+        "cpuRequest": "1",
+        "cpuLimit": "2",
+        "memoryRequest": "3Gi",
+        "memoryLimit": "4Gi"
+      },
+      "recommended": {
+        "cpuRequest": "800m",
+        "cpuLimit": "1500m",
+        "memoryRequest": "2.5Gi",
+        "memoryLimit": "3.5Gi"
+      },
+      "reason": "Memory usage stayed below 75% over 24h"
+    }
+  ]
+}

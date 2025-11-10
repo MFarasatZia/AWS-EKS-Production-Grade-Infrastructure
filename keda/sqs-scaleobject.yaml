@@ -1,0 +1,21 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: backend-sqs-scaler
+  namespace: dev
+  labels:
+    app: backend
+spec:
+  scaleTargetRef:
+    name: backend-deployment       # must match your deployment name
+  minReplicaCount: 1
+  maxReplicaCount: 5
+  pollingInterval: 30              # check queue every 30 seconds
+  cooldownPeriod: 60               # wait 60s before scaling down
+  triggers:
+    - type: aws-sqs-queue
+      metadata:
+        queueURL: https://sqs.us-east-1.amazonaws.com/123456789012/demo-queue
+        awsRegion: us-east-1
+        queueLength: "10"          # 1 pod per 10 messages
+        identityOwner: operator    # use IRSA to authenticate

@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: karpenter
+  namespace: karpenter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: karpenter
+  template:
+    metadata:
+      labels:
+        app: karpenter
+    spec:
+      serviceAccountName: karpenter
+      containers:
+        - name: controller
+          image: public.ecr.aws/karpenter/karpenter:v1.12.0
+          args:
+            - "--cluster-name=demo-eks-cluster"
+            - "--cluster-endpoint=https://ABCDE12345.gr7.us-east-1.eks.amazonaws.com"
+            - "--aws-default-instance-profile=KarpenterNodeInstanceProfile"
+            - "--aws-default-security-group=sg-1234567890abcdef0"
+            - "--aws-default-subnet=subnet-abcdef12"

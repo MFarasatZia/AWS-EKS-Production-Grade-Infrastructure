@@ -1,0 +1,9 @@
+apiVersion: v2
+name: node-mylera
+description: A sample Helm chart for deploying a Node.js backend on EKS
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+maintainers:
+  - name: Demo DevOps Engineer
+    email: demo@example.com
