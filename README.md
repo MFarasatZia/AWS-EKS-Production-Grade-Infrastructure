@@ -1,4 +1,4 @@
-# 🧩 AWS EKS Production-Grade Infrastructure (Portfolio Edition)
+# 🧩 AWS EKS Production-Grade Infrastructure
 🚀 A real-world Kubernetes infrastructure template showcasing best practices for deploying and managing production workloads on **Amazon EKS**.
 Automates networking, security, autoscaling, secret management, and application delivery using **KEDA**, **Karpenter**, **IRSA**, **Helm**, and **SonarQube** — built entirely around AWS-native integrations.
 
