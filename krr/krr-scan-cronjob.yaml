@@ -1,0 +1,67 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: krr-scanner
+  namespace: tools
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: krr-scanner
+rules:
+  - apiGroups: [""]
+    resources: ["pods", "nodes"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["apps"]
+    resources: ["deployments", "statefulsets", "daemonsets"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["metrics.k8s.io"]
+    resources: ["pods", "nodes"]
+    verbs: ["get", "list"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: krr-scanner
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: krr-scanner
+subjects:
+  - kind: ServiceAccount
+    name: krr-scanner
+    namespace: tools
+
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: krr-resource-scanner
+  namespace: tools
+spec:
+  schedule: "0 2 * * 0"  # Weekly scan at 2 AM on Sunday
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: krr-scanner
+          containers:
+            - name: krr-scanner
+              image: ghcr.io/robusta-dev/krr:latest
+              args:
+                - scan
+                - --cluster
+                - --output=json
+                - --output-file=/tmp/krr-report-$(date +%Y%m%d-%H%M%S).json
+              env:
+                - name: KUBECONFIG
+                  value: /var/run/secrets/kubernetes.io/serviceaccount/kubeconfig
+              volumeMounts:
+                - name: report-volume
+                  mountPath: /tmp
+          volumes:
+            - name: report-volume
+              emptyDir: {}
+          restartPolicy: OnFailure

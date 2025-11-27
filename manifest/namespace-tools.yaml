@@ -1,33 +1,34 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: dev
+  name: tools
   labels:
-    env: dev
+    app: tools
     owner: platform
+    env: production
 
 ---
 apiVersion: v1
 kind: ResourceQuota
 metadata:
-  name: dev-quota
-  namespace: dev
+  name: tools-quota
+  namespace: tools
 spec:
   hard:
-    requests.cpu: "20"
-    requests.memory: "40Gi"
-    limits.cpu: "40"
-    limits.memory: "80Gi"
-    persistentvolumeclaims: "10"
-    pods: "100"
-    services: "20"
+    requests.cpu: "10"
+    requests.memory: "20Gi"
+    limits.cpu: "20"
+    limits.memory: "40Gi"
+    persistentvolumeclaims: "5"
+    pods: "50"
+    services: "10"
 
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: dev-network-policy
-  namespace: dev
+  name: tools-network-policy
+  namespace: tools
 spec:
   podSelector: {}
   policyTypes:
@@ -37,10 +38,8 @@ spec:
     - from:
         - namespaceSelector:
             matchLabels:
-              env: dev
+              name: tools
       ports:
-        - protocol: TCP
-          port: 5432
         - protocol: TCP
           port: 8080
         - protocol: TCP
@@ -60,23 +59,3 @@ spec:
           port: 53
         - protocol: UDP
           port: 53
-
----
-apiVersion: v1
-kind: LimitRange
-metadata:
-  name: dev-limit-range
-  namespace: dev
-spec:
-  limits:
-    - max:
-        cpu: "2"
-        memory: "4Gi"
-      min:
-        cpu: "50m"
-        memory: "64Mi"
-      type: Container
-    - max:
-        cpu: "4"
-        memory: "8Gi"
-      type: Pod

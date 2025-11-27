@@ -33,13 +33,23 @@ spec:
             - name: SONAR_JDBC_URL
               value: "jdbc:postgresql://postgres.dev.svc.cluster.local:5432/sonarqube"
             - name: SONAR_JDBC_USERNAME
-              value: "sonaruser"
+              valueFrom:
+                secretKeyRef:
+                  name: sonarqube-db-creds
+                  key: username
             - name: SONAR_JDBC_PASSWORD
-              value: "ChangeThisPassword!"
+              valueFrom:
+                secretKeyRef:
+                  name: sonarqube-db-creds
+                  key: password
             - name: SONAR_WEB_JAVAOPTS
-              value: "-Xms512m -Xmx512m"
+              value: "-Xms1g -Xmx1g"
             - name: SONAR_ES_JAVA_OPTS
               value: "-Xms1g -Xmx1g"
+            - name: SONAR_WEB_ENFORCE_AUTHENTICATION
+              value: "true"
+            - name: SONAR_AUTH_GITHUB_ENABLED
+              value: "false"
           ports:
             - name: http
               containerPort: 9000
