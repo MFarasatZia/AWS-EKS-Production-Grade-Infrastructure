@@ -482,7 +482,7 @@ If this project helped you:
 - ⭐ **Star** this repository
 - 🐛 **Report issues** and suggestions
 - 📖 **Share** with your network
-- 💬 **Discuss** improvements
+- 💬 **Discuss** improvement
 
 ---
 
